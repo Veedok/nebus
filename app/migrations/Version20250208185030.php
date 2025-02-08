@@ -20,7 +20,7 @@ final class Version20250208185030 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE organization (id SERIAL NOT NULL, address_id INT NOT NULL, tname VARCHAR(150) NOT NULL, phones JSON DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE organization (id SERIAL NOT NULL, address_id INT NOT NULL, name VARCHAR(150) NOT NULL, phones JSON DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_C1EE637CF5B7AF75 ON organization (address_id)');
         $this->addSql('CREATE TABLE organization_activity (organization_id INT NOT NULL, activity_id INT NOT NULL, PRIMARY KEY(organization_id, activity_id))');
         $this->addSql('CREATE INDEX IDX_436CCBF832C8A3DE ON organization_activity (organization_id)');

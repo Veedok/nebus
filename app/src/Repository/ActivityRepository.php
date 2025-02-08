@@ -41,4 +41,10 @@ class ActivityRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function getLastChild(){
+        $manager = $this->getEntityManager();
+        $query = $manager->createQuery('SELECT a FROM App\Entity\Activity a WHERE a.id NOT IN (SELECT DISTINCT p.parent FROM App\Entity\Activity p)');
+        return $query->getResult();
+    }
 }
