@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ActivityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /** Класс вида деятельности */
@@ -22,6 +24,21 @@ class Activity
     /** @var int|null Родитель если 0 то это верхняя группа */
     #[ORM\Column]
     private ?int $parent = null;
+
+    /**
+     * Организации относящиеся к виду деятельности
+     * @var Collection<int, Organization>
+     */
+    #[ORM\ManyToMany(targetEntity: Organization::class, mappedBy: 'activity')]
+    private Collection $organizations;
+
+    /**
+     * Определение зависимостей
+     */
+    public function __construct()
+    {
+        $this->organizations = new ArrayCollection();
+    }
 
     /**
      * Получить идентификатор вида деятельности
@@ -70,6 +87,43 @@ class Activity
     public function setParent(int $parent): static
     {
         $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Organization>
+     */
+    public function getOrganizations(): Collection
+    {
+        return $this->organizations;
+    }
+
+    /**
+     * Добавить организацию к виду деятельности
+     * @param Organization $organization
+     * @return $this
+     */
+    public function addOrganization(Organization $organization): static
+    {
+        if (!$this->organizations->contains($organization)) {
+            $this->organizations->add($organization);
+            $organization->addActivity($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Удалить организацию из вида деятельности
+     * @param Organization $organization
+     * @return $this
+     */
+    public function removeOrganization(Organization $organization): static
+    {
+        if ($this->organizations->removeElement($organization)) {
+            $organization->removeActivity($this);
+        }
 
         return $this;
     }

@@ -2,7 +2,10 @@
 
 namespace App\Entity\Address;
 
+use App\Entity\Organization;
 use App\Repository\Address\BuildingRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /** Класс зданий и координат здания */
@@ -24,13 +27,25 @@ class Building
     #[ORM\JoinColumn(nullable: false)]
     private ?Street $streetId = null;
 
-    /** @var float|null Широта     */
+    /** @var float|null Широта */
     #[ORM\Column]
     private ?float $latitude = null;
 
-    /**  @var float|null Долгота     */
+    /**  @var float|null Долгота */
     #[ORM\Column]
     private ?float $longitude = null;
+
+    /** @var Collection<int, Organization> Организации */
+    #[ORM\OneToMany(targetEntity: Organization::class, mappedBy: 'address')]
+    private Collection $organizations;
+
+    /**
+     * Определение зависимостей
+     */
+    public function __construct()
+    {
+        $this->organizations = new ArrayCollection();
+    }
 
     /**
      * Получить идентификатор здания
@@ -121,6 +136,36 @@ class Building
     public function setLongitude(float $longitude): static
     {
         $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Organization>
+     */
+    public function getOrganizations(): Collection
+    {
+        return $this->organizations;
+    }
+
+    public function addOrganization(Organization $organization): static
+    {
+        if (!$this->organizations->contains($organization)) {
+            $this->organizations->add($organization);
+            $organization->setAddress($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrganization(Organization $organization): static
+    {
+        if ($this->organizations->removeElement($organization)) {
+            // set the owning side to null (unless already changed)
+            if ($organization->getAddress() === $this) {
+                $organization->setAddress(null);
+            }
+        }
 
         return $this;
     }
