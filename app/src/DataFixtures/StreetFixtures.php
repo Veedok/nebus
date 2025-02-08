@@ -2,8 +2,8 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\City;
-use App\Entity\Street;
+use App\Entity\Address\City;
+use App\Entity\Address\Street;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;

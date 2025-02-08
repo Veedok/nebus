@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Address;
 
-use App\Repository\BuildingRepository;
+use App\Repository\Address\BuildingRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /** Класс зданий и координат здания */
