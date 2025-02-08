@@ -12,6 +12,8 @@ services:
     networks:
       - dev-network
     restart: always
+    environment:
+      - PHP_IDE_CONFIG="serverName=app"
     extra_hosts:
       - "host.docker.internal:host-gateway"
   nginx:

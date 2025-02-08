@@ -21,11 +21,10 @@ class CityFixtures extends Fixture
         foreach ($cities as$key=> $value) {
             $city = new City();
             $city->setName($value);
+            $city->setId($key+1);
             $manager->persist($city);
             $this->addReference((self::STREET_CITY_REFERENCE . ($key +1)), $city);
         }
         $manager->flush();
-
-
     }
 }

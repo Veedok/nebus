@@ -21,7 +21,8 @@ class StreetFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('ru_RU');
-        $cities = [$this->getReference((CityFixtures::STREET_CITY_REFERENCE . '1'), City::class), $this->getReference((CityFixtures::STREET_CITY_REFERENCE . '2'), City::class)];
+        $repository = $manager->getRepository(City::class);
+        $cities = $repository->findAll();
         foreach ($cities as $city) {
             for ($i = 0; $i < 20; $i++) {
                 $street = new Street();

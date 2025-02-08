@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Building;
+use App\Entity\Street;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -19,13 +20,13 @@ class BuildingFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('ru_RU');
-        $repository = $manager->getRepository('Street');
+        $repository = $manager->getRepository(Street::class);
         $list = [
-            1 => [
+            'Москва' => [
                 'lat' => ['min' => 55.5, 'max' => 56],
                 'lon' => ['min' => 37, 'max' => 38],
             ],
-            2 => [
+            'Санкт-Петербург' => [
                 'lat' => ['min' => 59.7, 'max' => 60.2],
                 'lon' => ['min' => 30.1, 'max' => 30.6],
             ]
@@ -33,14 +34,14 @@ class BuildingFixtures extends Fixture implements DependentFixtureInterface
         $streets = $repository->findAll();
         foreach ($streets as $street) {
             $count = mt_rand(20, 40);
-            $minMax = $list[$street->getCityId()->getId()];
+            $minMax = $list[$street->getCityId()->getName()];
             for ($i = 0; $i < $count; $i++) {
                 $building = new Building();
                 $building->setStreetId($street);
                 $building->setNum($faker->buildingNumber());
                 $building->setLatitude($faker->latitude($minMax['lat']['min'], $minMax['lat']['max']));
                 $building->setLongitude($faker->longitude($minMax['lon']['min'], $minMax['lon']['max']));
-                $manager->persist($street);
+                $manager->persist($building);
             }
         }
         $manager->flush();
