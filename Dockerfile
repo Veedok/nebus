@@ -15,6 +15,5 @@ RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
 COPY app /var/www/app
 WORKDIR /var/www/app
-RUN chown -R www-data:www-data /var/www/app/var
 EXPOSE 9000
 CMD ["php-fpm"]
