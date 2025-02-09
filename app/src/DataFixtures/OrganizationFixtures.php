@@ -25,7 +25,7 @@ class OrganizationFixtures extends Fixture implements DependentFixtureInterface
         $buildingRepo = $manager->getRepository(Building::class);
         $activityRepo = $manager->getRepository(Activity::class);
         /** @var ActivityRepository $activityRepo */
-        $activity = $activityRepo->getLastChild();
+        $activity = $activityRepo->findAll();
         $faker = Factory::create('ru_RU');
         $address = $buildingRepo->findAll();
         foreach ($address as $building) {

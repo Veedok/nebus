@@ -92,6 +92,7 @@ class Activity
     }
 
     /**
+     * Получить организации данного вида деятельности
      * @return Collection<int, Organization>
      */
     public function getOrganizations(): Collection

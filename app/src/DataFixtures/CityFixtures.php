@@ -18,7 +18,7 @@ class CityFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $cities = ['Москва', 'Санкт-Петербург'];
-        foreach ($cities as$key=> $value) {
+        foreach ($cities as $key=> $value) {
             $city = new City();
             $city->setName($value);
             $city->setId($key+1);

@@ -12,6 +12,10 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class OrganizationRepository extends ServiceEntityRepository
 {
+    /**
+     * Определение зависимостей
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Organization::class);

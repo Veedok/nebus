@@ -107,6 +107,11 @@ class City
         return $this;
     }
 
+    /**
+     * Изменить Идентификатор
+     * @param int|null $id
+     * @return void
+     */
     public function setId(?int $id): void
     {
         $this->id = $id;

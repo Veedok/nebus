@@ -2,11 +2,17 @@
 
 namespace App\DTO;
 
-class CoordinatesDTO
+/** DTO очки на карте (координаты) */
+readonly class CoordinatesDTO
 {
+    /**
+     * Конструктор DTO
+     * @param float $latitude Широта
+     * @param float $longitude Долгота
+     */
     public function __construct(
-        public readonly float $latitude,
-        public readonly float $longitude,
+        public float $latitude,
+        public float $longitude,
     )
     {
 

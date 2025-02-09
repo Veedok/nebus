@@ -141,6 +141,7 @@ class Building
     }
 
     /**
+     * Получить организации в здании
      * @return Collection<int, Organization>
      */
     public function getOrganizations(): Collection
@@ -148,6 +149,11 @@ class Building
         return $this->organizations;
     }
 
+    /**
+     * Добавить организацию в здание
+     * @param Organization $organization
+     * @return $this
+     */
     public function addOrganization(Organization $organization): static
     {
         if (!$this->organizations->contains($organization)) {
@@ -158,6 +164,11 @@ class Building
         return $this;
     }
 
+    /**
+     * Удалить организацию из здания
+     * @param Organization $organization
+     * @return $this
+     */
     public function removeOrganization(Organization $organization): static
     {
         if ($this->organizations->removeElement($organization)) {

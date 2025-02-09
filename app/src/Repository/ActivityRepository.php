@@ -12,6 +12,10 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ActivityRepository extends ServiceEntityRepository
 {
+    /**
+     * Определение зависимостей
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Activity::class);
@@ -44,6 +48,8 @@ class ActivityRepository extends ServiceEntityRepository
 
     /**
      * Возвращает последний уровень вложенности у видов деятельности
+     * Метод не используется, но если логика в том что организации могут иметь только последний уровень вложенности вида деятельности
+     * то строчку app/src/DataFixtures/OrganizationFixtures.php:28 заменить на $activity = $activityRepo->getLastChild();
      * @return mixed
      */
     public function getLastChild(): mixed

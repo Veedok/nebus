@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\DTO\CoordinatesDTO;
 use App\DTO\IdDTO;
+use App\DTO\TreeDTO;
 use App\Entity\Activity;
 use App\Entity\Organization;
 use App\Repository\ActivityRepository;
@@ -103,7 +104,7 @@ readonly class OrganizationService
     private function activityString(Activity $activity): string
     {
         $parent = $activity->getParent();
-        if (!empty($parent)){
+        if (!empty($parent)) {
             return sprintf("%s--->%s", $this->activityString($this->activityRepository->find($parent)), $activity->getName());
         }
         return $activity->getName();
@@ -111,30 +112,32 @@ readonly class OrganizationService
 
     /**
      * Возвращает все организации относящиеся к переданному виду деятельности и его дочерним видам деятельности
-     * @param IdDTO $idDTO
+     * @param TreeDTO $treeDTO
      * @return array
      */
-    public function getOrgActivityTree(IdDTO $idDTO): array
+    public function getOrgActivityTree(TreeDTO $treeDTO): array
     {
-        $activity = $this->activityRepository->find($idDTO->id);
-        $org = $this->getOrgs($activity);
-        return array_map(function ($el){
+        $activity = $this->activityRepository->find($treeDTO->id);
+        $org = $this->getOrgs($activity, $treeDTO->count);
+        return array_map(function ($el) use ($treeDTO) {
             return $this->orgInfo($el);
         }, $org);
     }
 
     /**
-     * Возвращает массив организаций относящиеся к виду деятельности и его дочерним выидам деятельности
+     * Возвращает массив организаций относящиеся к виду деятельности и его дочерним видам деятельности
      * @param Activity $activity
+     * @param null $max
+     * @param int $count
      * @return array
      */
-    private function getOrgs(Activity $activity): array
+    private function getOrgs(Activity $activity, $max = null, int $count = 1): array
     {
         $org = $activity->getOrganizations()->toArray();
         $child = $this->activityRepository->getChildren($activity->getId());
-        if (!empty($child)){
-            foreach ($child as $el){
-                $org = array_merge($org, $this->getOrgs($el));
+        if (!empty($child) && !(!empty($max) && $max == $count)) {
+            foreach ($child as $el) {
+                    $org = array_merge($org, $this->getOrgs($el, $max, ($count + 1)));
             }
         }
         return $org;
