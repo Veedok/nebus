@@ -6,6 +6,11 @@
 ```text
 docker compose up -d
 ```
+### Если будут проблемы с запуском контейнера postgres то зайти в папку и создать нужные директории 
+```text
+cd postgres_data/
+mkdir -p pg_notify pg_replslot pg_twophase pg_tblspc pg_logical/snapshots pg_logical/mappings pg_commit_ts
+```
 ### Зайти в контейнер 
 ```text
 docker compose exec app bash
