@@ -42,9 +42,26 @@ class ActivityRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    public function getLastChild(){
+    /**
+     * Возвращает последний уровень вложенности у видов деятельности
+     * @return mixed
+     */
+    public function getLastChild(): mixed
+    {
         $manager = $this->getEntityManager();
         $query = $manager->createQuery('SELECT a FROM App\Entity\Activity a WHERE a.id NOT IN (SELECT DISTINCT p.parent FROM App\Entity\Activity p)');
+        return $query->getResult();
+    }
+
+    /**
+     * Возвращает потомков по идентификатору родителя
+     * @param $parentId
+     * @return mixed
+     */
+    public function getChildren($parentId): mixed
+    {
+        $manager = $this->getEntityManager();
+        $query = $manager->createQuery('SELECT a FROM App\Entity\Activity a WHERE a.parent = :parent')->setParameter('parent', $parentId);
         return $query->getResult();
     }
 }

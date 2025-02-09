@@ -9,7 +9,7 @@ use Doctrine\Persistence\ObjectManager;
 /** Класс генерации городов */
 class CityFixtures extends Fixture
 {
-    public const string STREET_CITY_REFERENCE = 'street-city';
+
     /**
      * Метод генерации городов
      * @param ObjectManager $manager
@@ -23,7 +23,6 @@ class CityFixtures extends Fixture
             $city->setName($value);
             $city->setId($key+1);
             $manager->persist($city);
-            $this->addReference((self::STREET_CITY_REFERENCE . ($key +1)), $city);
         }
         $manager->flush();
     }

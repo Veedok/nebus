@@ -11,8 +11,15 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
+/** Класс генерации организаций */
 class OrganizationFixtures extends Fixture implements DependentFixtureInterface
 {
+
+    /**
+     * Метод генерации организаций
+     * @param ObjectManager $manager
+     * @return void
+     */
     public function load(ObjectManager $manager): void
     {
         $buildingRepo = $manager->getRepository(Building::class);
