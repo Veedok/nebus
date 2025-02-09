@@ -33,7 +33,7 @@ class BuildingFixtures extends Fixture implements DependentFixtureInterface
         ];
         $streets = $repository->findAll();
         foreach ($streets as $street) {
-            $count = mt_rand(20, 40);
+            $count = mt_rand(10, 20);
             $minMax = $list[$street->getCityId()->getName()];
             for ($i = 0; $i < $count; $i++) {
                 $building = new Building();
